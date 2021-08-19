@@ -1,19 +1,19 @@
 const db = require("../db");
 
-class product {
-  static getSingleProductData(id) {
+class order {
+  static getSingleOrderData(id) {
     // returning a promise
     return db.execute(`SELECT * FROM product WHERE id = ${id}`);
   }
-  static getAllProductsData() {
+  static getAllOrdersData() {
     return db.execute(`SELECT * FROM product`);
   }
 
-  static deleteProduct(id) {
+  static deleteOrderID(id) {
     return db.execute(`DELETE FROM product WHERE id = ${id}`);
   }
 
-  static createProduct(name, price, details) {
+  static createOrder(name, price, details) {
     return db.execute(
       `INSERT INTO product ( name, price, details) VALUES ( "${String(
         name
@@ -21,7 +21,7 @@ class product {
     );
   }
 
-  static updateProduct(id, name, price, details) {
+  static updateOrder(id, name, price, details) {
     return db.execute(
       `UPDATE product SET name = "${String(name)}" , price = "${String(
         price
@@ -30,4 +30,4 @@ class product {
   }
 }
 
-module.exports = product;
+module.exports = order;

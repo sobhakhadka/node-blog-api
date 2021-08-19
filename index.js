@@ -8,8 +8,10 @@ app.use(express.urlencoded());
 const port = process.env.PORT || 3000;
 
 app.use("/products", productRouter);
-// db.execute("SELECT * FROM products").then(console.log).catch(console.log);
 
-app.get("/", (req, res) => console.log("GET request"));
+// 404 page
+app.get((req, res, next) => {
+  res.status(404).json({ message: "Not found" });
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
