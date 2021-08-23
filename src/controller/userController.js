@@ -110,7 +110,10 @@ module.exports.login = (req, res) => {
             let jsontoken;
             userModel
             .getUserByUserEmail(body.email).then(([rows,metadata]) => {
-                result = compareSync(body.password, results.password);
+                // console.log(rows[0].password);
+                rows = rows[0];
+                result = compareSync(body.password, rows.password);
+                // console.log(rows.password);
                 if (result) {
                     rows.password = undefined,
                         jsontoken = sign({ result, rows }, "qwe1234", { expiresIn: "1h" }),
@@ -135,7 +138,7 @@ module.exports.SignUp = (req, res) => {
                 req.body.password = hashSync(req.body.password, salt); //This technique is used for encrypting password
                 userModel
                 .signUp(req.body.name,req.body.address,req.body.email,req.body.password,req.body.admin).then(([rows,metadata]) => {
-                    res.status(200).json(JSON.stringify(rows))
+                    res.status(200).json(JSON.stringify(rows[0]))
                 }).catch((err) => {
                     res.status(400).send({
                         success: 0, 

@@ -26,7 +26,7 @@ class user{
         values("${name}","${address}","${email}","${password}","${admin}")`);      
     }
     static getUsers(){
-      return db.execute(`select id, name, address, email from user`)
+      return db.execute(`select id, name, address, email,admin from user`)
              }
     static getUserByUserId(id){
        return db.execute(
@@ -45,9 +45,8 @@ class user{
             `select * from user where email = "${email}" `);       
     }
     static signUp(name,address,email,password,admin){
-        console.log(name,address,email,password,admin);
         return db.execute(
-            `insert into user (name, address, email, password,admin)
+            `insert into test.user (name, address, email, password,admin) values
             ("${name}","${address}","${email}","${String(password)}",${admin})`);
 }
 }
