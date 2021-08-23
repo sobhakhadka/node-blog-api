@@ -61,8 +61,17 @@ module.exports.addOrder = (req, res, next) => {
 
 module.exports.deleteOrder = (req, res, next) => {
   orderModel
-    .deleteOrder(req.params.id)
-    .then(res.status(200).json({ message: "order deleted" }))
+    .deleteOrderID(req.params.id)
+    .then(
+      orderModel
+        .deleteProductFromOrder(req.params.id)
+        .then(() => res.status(200).json({ message: "order deleted" }))
+        .catch((err) =>
+          res.status(400).send({
+            message: err,
+          })
+        )
+    )
     .catch((err) =>
       res.status(400).send({
         message: err,

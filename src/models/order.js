@@ -10,7 +10,7 @@ class order {
   }
 
   static deleteOrderID(id) {
-    return db.execute(`DELETE FROM order WHERE id = ${id}`);
+    return db.execute(`DELETE FROM test.order WHERE id = ${id}`);
   }
 
   static createOrder(user_id, total_price) {
@@ -36,6 +36,12 @@ class order {
       "INSERT INTO order_product ( order_id, product_id, product_count) VALUES ?",
       [product_data]
     );
+  }
+
+  static deleteProductFromOrder(order_id) {
+    return db.query("DELETE FROM order_product WHERE order_id = ? ", [
+      order_id,
+    ]);
   }
 }
 
