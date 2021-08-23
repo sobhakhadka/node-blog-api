@@ -15,7 +15,7 @@ module.exports.auth = (req, res, next) => {
           message: "Invalid token",
         });
       } else {
-        req.user = decoded["user"];
+        req.user = decoded.user;
         console.log("/n/n/n. ----->", req.user);
         next();
       }

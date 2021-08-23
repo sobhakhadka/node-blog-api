@@ -15,16 +15,9 @@ class order {
 
   static createOrder(user_id, total_price) {
     return db.execute(
-      `INSERT INTO order ( user_id, total_price) VALUES ( ${id}, " ${String(
+      `INSERT INTO test.order ( user_id, total_price) VALUES ( ${user_id}, "${String(
         total_price
-      )}"  ) `,
-      function (err, result) {
-        if (err) {
-          console.log(err);
-        }
-        console.log(result);
-        return result;
-      }
+      )}"  ) `
     );
   }
 
