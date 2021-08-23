@@ -1,25 +1,24 @@
-const { verify, decode } = require("jsonwebtoken");
+const { verify } = require("jsonwebtoken");
 
-module.exports = {
-  checkToken: (req, res, next) => {
-    let token = req.get("authorization");
-    if (token) {
-      token = token.slice(7);
-      verify(token, "qwe1234", (error, decoded) => {
-        if (error) {
-          res.json({
-            success: 0,
-            message: "Invalid Token",
-          });
-        } else {
-          next();
-        }
-      });
-    } else {
-      res.json({
-        success: 0,
-        message: "Access denied , unauthorized user",
-      });
-    }
-  },
+module.exports.auth = (req, res, next) => {
+  console.log(req);
+  const token = req.get("authorization").split(" ")[1];
+  console.log(token);
+  if (!token) {
+    res.status(401).json({
+      message: "token not provide, Access denied !",
+    });
+  } else {
+    verify(token, process.env.SECRET, (error, decoded) => {
+      if (error) {
+        res.status(401).json({
+          message: "Invalid token",
+        });
+      } else {
+        req.user = decoded;
+        console.log(req.user);
+        next();
+      }
+    });
+  }
 };

@@ -1,5 +1,10 @@
 const express = require("express");
-const productRouter = require("./routes/productRoutes");
+const productRouters = require("./routes/productRoutes");
+const orderRouters = require("./routes/orderRoutes");
+const userRouters = require("./routes/userRoutes");
+
+// loading environment variables
+require("dotenv").config();
 
 const app = express();
 app.use(express.json());
@@ -7,7 +12,9 @@ app.use(express.urlencoded());
 
 const port = process.env.PORT || 3000;
 
-app.use("/products", productRouter);
+app.use("/products", productRouters);
+app.use("/order", orderRouters);
+app.use("/user", userRouters);
 
 // 404 page
 app.get((req, res, next) => {
