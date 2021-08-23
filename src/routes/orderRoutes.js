@@ -6,10 +6,10 @@ const { auth } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.post("/", orderController.addOrder);
-router.put("/:id", orderController.updateOrder);
-router.delete("/:id", orderController.deleteOrder);
-router.get("/:id", orderController.getSingleOrder);
+router.post("/", auth, orderController.addOrder);
+router.put("/:id", auth, orderController.updateOrder);
+router.delete("/:id", auth, orderController.deleteOrder);
+router.get("/:id", auth, orderController.getSingleOrder);
 router.get("/", auth, orderController.getAllOrders);
 
 module.exports = router;

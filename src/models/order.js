@@ -13,11 +13,18 @@ class order {
     return db.execute(`DELETE FROM order WHERE id = ${id}`);
   }
 
-  static createOrder(name, price, details) {
+  static createOrder(user_id, total_price) {
     return db.execute(
-      `INSERT INTO order ( name, price, details) VALUES ( "${String(
-        name
-      )}", " ${String(price)}", " ${String(details)}"  )  `
+      `INSERT INTO order ( user_id, total_price) VALUES ( ${id}, " ${String(
+        total_price
+      )}"  ) `,
+      function (err, result) {
+        if (err) {
+          console.log(err);
+        }
+        console.log(result);
+        return result;
+      }
     );
   }
 
@@ -26,6 +33,15 @@ class order {
       `UPDATE order SET name = "${String(name)}" , price = "${String(
         price
       )}" , details = "${String(details)}" WHERE id = ${id}`
+    );
+  }
+
+  static addProductToOrder(product_data) {
+    // product_data is an object with the following properties
+    // order_id,product_id, product_count (array format)
+    return db.query(
+      "INSERT INTO order_product ( order_id, product_id, product_count) VALUES ?",
+      [product_data]
     );
   }
 }

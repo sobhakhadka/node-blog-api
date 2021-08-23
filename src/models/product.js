@@ -5,6 +5,13 @@ class product {
     // returning a promise
     return db.execute(`SELECT * FROM product WHERE id = ${id}`);
   }
+
+  static getMultipleProductPrice(ids) {
+    ids = ids.join(",");
+    console.log(ids);
+    return db.execute(`SELECT price FROM product WHERE id IN  (${ids}) `);
+  }
+
   static getAllProductsData() {
     return db.execute(`SELECT * FROM product`);
   }
@@ -13,7 +20,7 @@ class product {
     return db.execute(`DELETE FROM product WHERE id = ${id}`);
   }
 
-  static createpp(name, price, details) {
+  static createProduct(name, price, details) {
     return db.execute(
       `INSERT INTO product ( name, price, details) VALUES ( "${String(
         name
