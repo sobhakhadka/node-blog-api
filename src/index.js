@@ -2,6 +2,7 @@ const express = require("express");
 const productRouters = require("./routes/productRoutes");
 const orderRouters = require("./routes/orderRoutes");
 const userRouters = require("./routes/userRoutes");
+const controller = require("./controller/userController");
 
 // loading environment variables
 require("dotenv").config();
@@ -20,5 +21,4 @@ app.use("/user", userRouters);
 app.get((req, res, next) => {
   res.status(404).json({ message: "Not found" });
 });
-
 app.listen(port, () => console.log(`Listening on port ${port}`));
