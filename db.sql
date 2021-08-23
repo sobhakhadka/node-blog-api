@@ -18,6 +18,32 @@ USE `test`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `last_update_product`
+--
+
+DROP TABLE IF EXISTS `last_update_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `last_update_product` (
+  `id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  `data` blob,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `user` FOREIGN KEY (`id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `last_update_product`
+--
+
+LOCK TABLES `last_update_product` WRITE;
+/*!40000 ALTER TABLE `last_update_product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `last_update_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `order`
 --
 
@@ -31,7 +57,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`id`),
   KEY `user_id_idx` (`user_id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +66,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (1,1,'111');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,6 +81,7 @@ CREATE TABLE `order_product` (
   `id` int NOT NULL AUTO_INCREMENT,
   `order_id` int NOT NULL,
   `product_id` int NOT NULL,
+  `product_count` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `order_id_idx` (`order_id`),
   KEY `product_id_idx` (`product_id`),
@@ -83,7 +111,11 @@ CREATE TABLE `product` (
   `name` varchar(45) DEFAULT NULL,
   `price` varchar(50) DEFAULT NULL,
   `details` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `​​category` int DEFAULT NULL,
+  `cost` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `​​category_idx` (`​​category`),
+  CONSTRAINT `​​category` FOREIGN KEY (`​​category`) REFERENCES `​​categories` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -93,36 +125,37 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (4,'fge','1','fs'),(5,'fge','1',NULL),(6,'fge','1',NULL),(7,'fge','1',NULL),(8,'vinayak','150','nice man'),(9,'villllnayak',' 150',' nice man'),(10,'coool mobile',' 10000',' coolest mobile for high cost');
+INSERT INTO `product` VALUES (4,'fge','1','fs',NULL,NULL),(5,'fge','1',NULL,NULL,NULL),(6,'fge','1',NULL,NULL,NULL),(7,'fge','1',NULL,NULL,NULL),(8,'vinayak','150','nice man',NULL,NULL),(9,'villllnayak',' 150',' nice man',NULL,NULL),(10,'coool mobile',' 10000',' coolest mobile for high cost',NULL,NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `product_category`
+-- Table structure for table `reviews`
 --
 
-DROP TABLE IF EXISTS `product_category`;
+DROP TABLE IF EXISTS `reviews`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `product_category` (
+CREATE TABLE `reviews` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int NOT NULL,
-  `category_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `text` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `user_id_idx` (`user_id`),
   KEY `product_id_idx` (`product_id`),
-  KEY `category_id_idx` (`category_id`),
-  CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `​​categories` (`id`),
-  CONSTRAINT `product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+  CONSTRAINT `product_idd` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  CONSTRAINT `user_idd` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `product_category`
+-- Dumping data for table `reviews`
 --
 
-LOCK TABLES `product_category` WRITE;
-/*!40000 ALTER TABLE `product_category` DISABLE KEYS */;
-/*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
+LOCK TABLES `reviews` WRITE;
+/*!40000 ALTER TABLE `reviews` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reviews` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -138,8 +171,9 @@ CREATE TABLE `user` (
   `address` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
+  `admin` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,6 +182,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'vinayak','bxyuh','itssvinayak@gmail.com','vinayak',1),(2,'skjhwi','jkwdn','ihb@gmil.com','sss',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,4 +229,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-16  9:48:28
+-- Dump completed on 2021-08-23  9:03:22

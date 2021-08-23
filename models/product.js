@@ -20,6 +20,14 @@ class product {
       )}", " ${String(price)}", " ${String(details)}"  )  `
     );
   }
+
+  static updateProduct(id, name, price, details) {
+    return db.execute(
+      `UPDATE product SET name = "${String(name)}" , price = "${String(
+        price
+      )}" , details = "${String(details)}" WHERE id = ${id}`
+    );
+  }
 }
 
 module.exports = product;
