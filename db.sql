@@ -190,10 +190,10 @@ UNLOCK TABLES;
 -- Table structure for table `​​categories`
 --
 
-DROP TABLE IF EXISTS `​​categories`;
+DROP TABLE IF EXISTS `categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `​​categories` (
+CREATE TABLE `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `details` varchar(100) DEFAULT NULL,
@@ -206,9 +206,9 @@ CREATE TABLE `​​categories` (
 -- Dumping data for table `​​categories`
 --
 
-LOCK TABLES `​​categories` WRITE;
+LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `​​categories` DISABLE KEYS */;
-INSERT INTO `​​categories` VALUES (1,'jbjb','hbj');
+INSERT INTO `categories` VALUES (1,'jbjb','hbj');
 /*!40000 ALTER TABLE `​​categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
