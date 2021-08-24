@@ -111,11 +111,11 @@ CREATE TABLE `product` (
   `name` varchar(45) DEFAULT NULL,
   `price` varchar(50) DEFAULT NULL,
   `details` varchar(100) DEFAULT NULL,
-  `​​category` int DEFAULT NULL,
+  `category` int DEFAULT NULL,
   `cost` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `​​category_idx` (`​​category`),
-  CONSTRAINT `​​category` FOREIGN KEY (`​​category`) REFERENCES `​​categories` (`id`)
+  KEY `category_idx` (`category`),
+  CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
