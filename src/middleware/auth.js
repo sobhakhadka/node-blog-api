@@ -16,7 +16,6 @@ module.exports.auth = (req, res, next) => {
         });
       } else {
         req.user = decoded.user;
-        console.log("/n/n/n. ----->", req.user);
         next();
       }
     });
