@@ -13,8 +13,9 @@ module.exports.getSingleOrder = (req, res, next) => {
 };
 
 module.exports.getAllOrders = (req, res, next) => {
+  console.log(req.user);
   orderModel
-    .getAllOrdersData()
+    .getAllOrdersData(req.user.id)
     .then(([rows, metadata]) => res.status(200).json(JSON.stringify(rows[0])))
     .catch((err) =>
       res.status(400).send({

@@ -5,8 +5,8 @@ class order {
     // returning a promise
     return db.execute(`SELECT * FROM order WHERE id = ${id}`);
   }
-  static getAllOrdersData() {
-    return db.execute("SELECT * FROM test.order");
+  static getAllOrdersData(id) {
+    return db.execute(`SELECT * FROM test.order WHERE user_id = ${id}`);
   }
 
   static deleteOrderID(id) {

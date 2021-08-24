@@ -82,25 +82,28 @@ module.exports.login = (req, res, next) => {
     .getUserByUserEmail(body.email)
     .then(([rows, metadata]) => {
       rows = rows[0];
+      console.log(rows);
       result = compareSync(body.password, rows.password);
       if (result) {
-        (rows.password = undefined),
-          (jsontoken = sign({ result, rows }, process.env.SECRET, {
-            expiresIn: "1h",
-          })),
-          //The second parameter is the key using which we encrypt and decrypt the token,
-          // the last parameter describes the validity of the token
-          res.status(200).send({
-            success: 1,
-            message: "Login Successfully",
-            token: jsontoken,
-          });
+        rows.password = undefined;
+        jsontoken = sign({ result, rows }, process.env.SECRET, {
+          expiresIn: "1h",
+        });
+        //The second parameter is the key using which we encrypt and decrypt the token,
+        // the last parameter describes the validity of the token
+        res.status(200).send({
+          success: 1,
+          message: "Login Successfully",
+          token: jsontoken,
+        });
+      } else {
+        res.status(401).json({ message: "wrong password provided" });
       }
     })
     .catch((err) => {
       res.status(400).send({
         success: 0,
-        message: "Invalid email or Token",
+        message: ` Invalid email or Token | ${err} `,
       });
     });
 };
@@ -116,7 +119,7 @@ module.exports.SignUp = (req, res, next) => {
       req.body.admin
     )
     .then(([rows, metadata]) => {
-      res.status(200).json(JSON.stringify(rows[0]));
+      res.status(200).json({ message: "user created successfully" });
     })
     .catch((err) => {
       res.status(400).send({
