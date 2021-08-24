@@ -1,10 +1,30 @@
 const orderModel = require("../models/order");
 const productModel = require("../models/product");
 
+const verifyOrder = (user_id, order_id) => {
+  orderModel.getSingleOrder(order_id).then(([rows, metadata]) => {
+    rows = rows[0];
+    if (rows.user_id == user_id) {
+      return true;
+    }
+    return false;
+  });
+};
+
 module.exports.getSingleOrder = (req, res, next) => {
+  // if(! verifyOrder(req.user.id, req.params.id)){
+  // }
   orderModel
     .getSingleOrderData(req.params.id)
-    .then(([rows, metadata]) => res.status(200).json(JSON.stringify(rows[0])))
+    .then(([rows, metadata]) => {
+      rows = rows;
+      orderModel
+        .getProductToOrder(req.params.id)
+        .then(([rows2, metadata]) => {
+          res.status(200).json({ order: rows, products: rows2 });
+        })
+        .catch((err) => res.status(400).json({ message: err }));
+    })
     .catch((err) =>
       res.status(400).send({
         message: err,
@@ -16,7 +36,7 @@ module.exports.getAllOrders = (req, res, next) => {
   console.log(req.user);
   orderModel
     .getAllOrdersData(req.user.id)
-    .then(([rows, metadata]) => res.status(200).json(JSON.stringify(rows[0])))
+    .then(([rows, metadata]) => res.status(200).json(JSON.stringify(rows)))
     .catch((err) =>
       res.status(400).send({
         message: err,

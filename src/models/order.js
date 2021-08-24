@@ -3,7 +3,7 @@ const db = require("../db");
 class order {
   static getSingleOrderData(id) {
     // returning a promise
-    return db.execute(`SELECT * FROM order WHERE id = ${id}`);
+    return db.execute(`SELECT * FROM test.order WHERE id = ${id}`);
   }
   static getAllOrdersData(id) {
     return db.execute(`SELECT * FROM test.order WHERE user_id = ${id}`);
@@ -35,6 +35,12 @@ class order {
     return db.query(
       "INSERT INTO order_product ( order_id, product_id, product_count) VALUES ?",
       [product_data]
+    );
+  }
+
+  static getProductToOrder(order_id) {
+    return db.execute(
+      ` SELECT * FROM order_product WHERE order_id = ${order_id} `
     );
   }
 
